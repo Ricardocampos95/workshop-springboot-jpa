@@ -10,12 +10,16 @@ import com.campostech.course.entities.Product;
 
 import com.campostech.course.repositories.ProductRepository;
 
+
+
 @Service
 public class ProductService {
 	
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+
 	
 	public List<Product> findAll(){
 		return productRepository.findAll();
@@ -24,8 +28,6 @@ public class ProductService {
 	public Product findById(Long id) {
 		Optional<Product> obj = productRepository.findById(id);
 		return obj.get();
-	
 	}
-	
 
 }
