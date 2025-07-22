@@ -2,6 +2,8 @@ package com.campostech.course.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.campostech.course.enums.OrderStatus;
@@ -28,6 +30,8 @@ public class Order implements Serializable{
 	private Instant moment;
 	
 	private Integer orderStatus;
+	
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "client_id")
