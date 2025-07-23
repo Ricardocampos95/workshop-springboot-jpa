@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -40,8 +41,12 @@ public class Product implements Serializable {
 	private Set<Category> categories = new HashSet<>();
 	
 	@OneToMany
-	@JsonBackReference
 	private Set<Order> orders = new HashSet<>();
+	
+	@OneToMany(mappedBy = "id.product")
+	@JsonIgnore
+	private Set<OrderItem> items = new HashSet<>();
+	
 	
 	public Product() {
 	}
@@ -53,6 +58,7 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 		this.price = price;
 	}
+	
 
 	public Long getId() {
 		return id;
@@ -93,6 +99,15 @@ public class Product implements Serializable {
 	
 	public Set<Category> getCategories() {
 		return categories;
+	}
+	
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		for (OrderItem i : items) {
+			set.add(i.getOrder());
+		}
+		return set;
 	}
 
 	@Override
