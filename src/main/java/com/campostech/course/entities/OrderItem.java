@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.campostech.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -21,14 +23,20 @@ public class OrderItem implements Serializable{
 	private Integer quantity;
 	private Double price;
 	
+	public OrderItem() {
+	    this.id = new OrderItemPK(); 
+	}
+	
 	public OrderItem(Order order, Product product, Integer quantity, Double price) {
-		id.setOrder(order);
-		id.setProduct(product);
+		this.id = new OrderItemPK();
+		this.id.setOrder(order);
+		this.id.setProduct(product);
 		this.quantity = quantity;
 		this.price = price;
 		
 	}
 	
+	@JsonBackReference
 	public Order getOrder(){
 		return id.getOrder();
 	}
@@ -37,6 +45,7 @@ public class OrderItem implements Serializable{
 		id.setOrder(order);
 	}
 	
+	@JsonManagedReference
 	public Product getProduct(){
 		return id.getProduct();
 	}
@@ -60,8 +69,6 @@ public class OrderItem implements Serializable{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
-	
 	
 	public Double getSubTotal() {
 		return quantity * price;
