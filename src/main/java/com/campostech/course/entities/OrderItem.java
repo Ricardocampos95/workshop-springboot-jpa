@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.campostech.course.entities.pk.OrderItemPK;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -45,6 +44,7 @@ public class OrderItem implements Serializable{
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
+	
 	
 	public Product getProduct(){
 		return id.getProduct();

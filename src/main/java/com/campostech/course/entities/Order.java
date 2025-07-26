@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.campostech.course.enums.OrderStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -57,6 +57,7 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
+	@JsonIgnore
 	public Set<OrderItem> getItems() {
 		return items;
 	}
@@ -94,6 +95,15 @@ public class Order implements Serializable{
 			this.orderStatus = orderStatus.getCode();
 		}
 	}
+	
+	public Double getTotal() {
+		double total = 0.0;
+		
+		for (OrderItem item : items) {
+			total += item.getSubTotal();
+		}
+		return total;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -106,6 +116,9 @@ public class Order implements Serializable{
 		Order other = (Order) obj;
 		return Objects.equals(id, other.id);
 	}
+	
+	
+	
 	
 	
 	

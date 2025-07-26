@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -38,9 +39,6 @@ public class Product implements Serializable {
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	@JsonManagedReference
 	private Set<Category> categories = new HashSet<>();
-	
-	@OneToMany
-	private Set<Order> orders = new HashSet<>();
 	
 	@OneToMany(mappedBy = "id.product")
 	@JsonIgnore
