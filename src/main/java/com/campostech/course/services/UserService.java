@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.campostech.course.entities.User;
+import com.campostech.course.exceptions.DbException;
+import com.campostech.course.exceptions.ResourceNotFoundException;
 import com.campostech.course.repositories.UserRepository;
 
 @Service
@@ -23,6 +25,24 @@ public class UserService {
 	public User findById(Long id) {
 		Optional<User> obj = userRepository.findById(id);
 		return obj.get();
+	}
+	
+	public void removeById(Long id) {
+		if (!userRepository.existsById(id)) {
+			throw new ResourceNotFoundException("User not found! id: " + id);
+		}
+		userRepository.deleteById(id);
+	}
+	
+	public User insert(User obj) {
+		List<User> list = findAll();
+		
+		for (User existing : list) {
+			if (existing.getEmail().equals(obj.getEmail())) {
+				throw new DbException("Email already exists!" + obj.getEmail());
+			}
+		}
+		return userRepository.save(obj);
 	}
 	
 	
