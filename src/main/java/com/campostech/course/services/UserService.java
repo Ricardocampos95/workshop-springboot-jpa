@@ -11,6 +11,7 @@ import com.campostech.course.exceptions.DbException;
 import com.campostech.course.exceptions.ResourceNotFoundException;
 import com.campostech.course.repositories.UserRepository;
 
+
 @Service
 public class UserService {
 
@@ -43,6 +44,18 @@ public class UserService {
 			}
 		}
 		return userRepository.save(obj);
+	}
+	
+	public User update(User obj, Long id) {
+		User entity = userRepository.getReferenceById(id);
+		updateData(entity, obj);
+		return userRepository.save(entity);
+	}
+	
+	public void updateData(User entity, User obj) {
+		entity.setName(obj.getName());
+		entity.setEmail(obj.getEmail());
+		entity.setPhone(obj.getPhone());
 	}
 	
 	
