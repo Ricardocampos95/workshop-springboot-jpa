@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.campostech.course.entities.User;
@@ -28,10 +30,13 @@ public class UserService {
 	}
 	
 	public void removeById(Long id) {
-		if (!userRepository.existsById(id)) {
-			throw new ResourceNotFoundException("User not found! id: " + id);
+		try {
+			userRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException(id);
+		}catch (DataIntegrityViolationException e) {
+			throw new DbException(e.getMessage());
 		}
-		userRepository.deleteById(id);
 	}
 	
 	public User insert(User obj) {
