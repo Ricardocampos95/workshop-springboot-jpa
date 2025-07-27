@@ -1,4 +1,4 @@
-package com.campostech.course.exceptions;
+package com.campostech.course.services.exceptions;
 
 public class DbException extends RuntimeException {
 

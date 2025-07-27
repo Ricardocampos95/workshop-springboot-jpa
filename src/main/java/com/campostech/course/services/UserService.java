@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.campostech.course.entities.User;
-import com.campostech.course.exceptions.DbException;
-import com.campostech.course.exceptions.ResourceNotFoundException;
 import com.campostech.course.repositories.UserRepository;
+import com.campostech.course.services.exceptions.DbException;
+import com.campostech.course.services.exceptions.ResourceNotFoundException;
 
 
 @Service
@@ -24,8 +24,7 @@ public class UserService {
 	}
 	
 	public User findById(Long id) {
-		Optional<User> obj = userRepository.findById(id);
-		return obj.get();
+		return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public void removeById(Long id) {
